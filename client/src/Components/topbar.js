@@ -12,7 +12,9 @@ const Container = styled.div`
   position: relative;
   width: 400px;
   height: 50px;
-  background-color: beige;
+  background-color: #b8aeab;
+
+  color: #fff;
 `
 
 const BackBtn = styled(FontAwesomeIcon)`

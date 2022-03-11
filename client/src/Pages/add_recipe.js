@@ -16,14 +16,16 @@ const Container = styled.div`
   display: grid;
   place-items: center;
   width: 400px;
-  background-color: beige;
+  height: 600px;
+  overflow: scroll;
+  background-color: #dfd5d2;
 `
 const ImgUploadBtn = styled.div`
   display: grid;
   place-items: center;
   width: 400px;
   height: 200px;
-  background: ${props => props.bg ? `url(${props.bg})` : 'beige'};
+  background: ${props => props.bg ? `url(${props.bg})` : '#dfd5d2;'};
   background-size: cover;
   background-position: center;
 
@@ -139,11 +141,11 @@ export const AddRecipe = ({ loginToken }) => {
       }
     }
     axios.post(`${serverPath}/recipe/content`, body, headers)
-    .then((res) => {
-      if(res.status === 201){
-        nav('/my_recipe')  
-      }
-    })
+      .then((res) => {
+        if (res.status === 201) {
+          nav('/my_recipes')
+        }
+      })
   }
 
   useEffect(() => {
@@ -161,28 +163,30 @@ export const AddRecipe = ({ loginToken }) => {
   }, [imgBase64])
 
   return (
-    <Container>
-      <Topbar pageTitle={"레시피 추가"}/>
-      {/* 사진 업로드 */}
-      <input style={{ display: "none" }} type="file" accept="image/*" onChange={uploadTumbnail} ref={inputBtn} />
+    <div>
+      <Topbar pageTitle={"레시피 추가"} />
+      <Container>
+        {/* 사진 업로드 */}
+        <input style={{ display: "none" }} type="file" accept="image/*" onChange={uploadTumbnail} ref={inputBtn} />
 
-      {
-        isLoading ? <ImgUploadBtn>업로드 중입니다...</ImgUploadBtn>
-          : <ImgUploadBtn onClick={imgUploadBtnClick} bg={previewImgUrl}>여기를 눌러 사진을 업로드하세요.</ImgUploadBtn>
-      }
+        {
+          isLoading ? <ImgUploadBtn>업로드 중입니다...</ImgUploadBtn>
+            : <ImgUploadBtn onClick={imgUploadBtnClick} bg={previewImgUrl}>여기를 눌러 사진을 업로드하세요.</ImgUploadBtn>
+        }
 
-      {previewImgUrl ? <ImgDeleteBtn onClick={deleteImg}>✕</ImgDeleteBtn> : <></>}
+        {previewImgUrl ? <ImgDeleteBtn onClick={deleteImg}>✕</ImgDeleteBtn> : <></>}
 
-      {/* 제목 작성 */}
-      <h3>레시피 제목</h3>
-      <TitleInput type="text" placeholder="레시피 제목 입력" onChange={handleTitle} />
+        {/* 제목 작성 */}
+        <h3>레시피 제목</h3>
+        <TitleInput type="text" placeholder="레시피 제목 입력" onChange={handleTitle} />
 
-      <AddIngredients setIngredients={setIngredients} />
+        <AddIngredients setIngredients={setIngredients} />
 
-      {/* 본문 작성 */}
-      <h3>레시피 작성</h3>
-      <Textarea placeholder="레시피를 작성해주세요" onChange={handleContent} />
-      <SubmitBtn onClick={handleSubmit}>업로드 하기</SubmitBtn>
-    </Container>
+        {/* 본문 작성 */}
+        <h3>레시피 작성</h3>
+        <Textarea placeholder="레시피를 작성해주세요" onChange={handleContent} />
+        <SubmitBtn onClick={handleSubmit}>업로드 하기</SubmitBtn>
+      </Container>
+    </div>
   )
 }

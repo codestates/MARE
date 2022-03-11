@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
+import { Topbar } from "../Components/topbar";
 
 // get요청으로 유저정보 먼저 불러오기
 // post요청으로 수정 버튼 누르기전 페이지(계정 정보창)으로 바로 이동
@@ -22,15 +23,16 @@ const Button = styled.button``;
 
 // 컴포넌트 태그 모음
 
+// Navigate 추가할 것
 const serverPath = process.env.REACT_APP_SERVER_PATH;
 // env에 저장된 서버 주소
 
-export const changeNick = () => {
+export const ChangeNick = () => {
   const [nick, setNick] = useState("");
   const [activeChangeBtn, setActiveChangeBtn] = useState(false);
 
   const nickValue = (e) => {
-    // 입력된 닉네임을 타겟으로 지정해서 상태 변경
+    // 입력된 닉네임(input)을 타겟으로 지정해서 상태 변경
     setNick(e.target.value);
   };
 
@@ -59,6 +61,7 @@ export const changeNick = () => {
   return (
     <Container>
       <Form>
+        <Topbar pageTitle={"닉네임 변경"} />
         <Column>
           <Input
             onChange={nickValue}

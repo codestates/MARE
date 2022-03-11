@@ -5,7 +5,7 @@ import axios from "axios";
 
 const serverPath = process.env.REACT_APP_SERVER_PATH;
 
-const PasswordEdit = () => {
+export const PasswordEdit = ({ loginToken }) => {
   const [newPassword, setNewPassword] = useState("");
   // 새로운 패스워드
   // 쓰임새 1 : 밑에 새로운 비밀번호 버튼
@@ -27,22 +27,21 @@ const PasswordEdit = () => {
 
   // 새로운 비밀번호 핸들러
   const onPasswordHandler = (event) => {
-    setNewPassword(event.currentTarget.value);
+    setNewPassword(event.target.value);
   };
 
   // 새로운 비밀번호 체크 핸들러
   const onCheckedPasswordHandler = (event) => {
-    setPasswordCheck(event.currentTarget.value);
+    setPasswordCheck(event.target.value);
   };
 
   const changePassword = async (e) => {
     // changePassword의 변경여부를 API를 이용하여 확인한다.
     e.preventDefault();
-    const tempToken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMjVjNWY5ZjI2NTdlN2I4Y2I1YjhiNSIsImlhdCI6MTY0NjcyMDc5MywiZXhwIjoxNjQ2ODA3MTkzfQ.ZjN2O8A_Cz-FBIo1Z460PmXYP5hoU896jh0QlfQDM5I";
+
     const headers = {
       headers: {
-        Authorization: `Bearer ${tempToken}`,
+        Authorization: `Bearer ${loginToken}`,
       },
     };
 
@@ -68,7 +67,6 @@ const PasswordEdit = () => {
       <form>
         <div className="newpassword_input">
           <h3>새로운 비밀번호 입력</h3>
-          {/* <button type="submit" newpassword={newpassword}>입력</button> */}
           <input
             type="password"
             placeholder="새로운 비밀번호 입력"
@@ -79,7 +77,6 @@ const PasswordEdit = () => {
 
         <div className="passwordcheck_input">
           <h3>새로운 비밀번호 확인</h3>
-          {/* <button type="submit" passwordCheck={passwordCheck}>입력</button> */}
           <input
             type="password"
             placeholder="새로운 비밀번호 확인"
@@ -99,5 +96,3 @@ const PasswordEdit = () => {
     </div>
   );
 };
-
-export default PasswordEdit;

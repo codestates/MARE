@@ -1,18 +1,52 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { Topbar } from "../Components/topbar";
+import { useNavigate } from "react-router-dom";
 
 const serverPath = process.env.REACT_APP_SERVER_PATH;
 // api 주소
 
-// todo : 닉네임과 이메일이 둘다 유효하며(유일하며), 모든 필드가 작성된 경우에만 제출버튼이 활성화 되어야함
-// todo : 회원가입이 완료되면 로그인 창으로 리다이렉트 해야함.
-// todo : 근데 이걸 FE에서? 통일성 있게 BE에서?
+const Container = styled.div`
+  height: 600px;
+  box-sizing: border-box;
+  padding: 10px;
+  `
 
-// todo : 회원가입 완료 누르면 가입요청 전달되어야함
-// todo : 이후 301 응답 이용하여 로그인페이지로 이동
+const InputSet = styled.div`
+  display: flex;
+`
+const Input = styled.input`
+    width: 200px;
+    height: 30px;
+    margin-top: 2px;
+    margin-bottom: 7px;
+    margin-left: -1px;
+  `
 
-// !! CSS 리셋하는 것 공지!!!!!!!
+const InputTitle = styled.h3`
+  margin-top: 15px;
+  font-size: 1.1rem;
+  font-weight: bold;
+`
+
+const StyledValidateBtn = styled.div`
+  display: grid;
+  place-items: center;
+  margin-left: 7px;
+  width: 63px;
+  height: 33px;
+  border: 1px solid gray;
+  background-color: #fff;
+  cursor : pointer
+`
+
+const StyledSubmitBtn = styled.button`
+  margin-top: 20px;
+  width: 100%;
+  height: 35px;
+  font-size: 1rem;
+`
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -23,6 +57,8 @@ const Signup = () => {
   const [isNotUsingEmail, setIsNotUsingEmail] = useState(false);
   const [isNotUsingNickname, setIsNotUsingNickname] = useState(false);
   const [activeSubmit, setActiveSubmit] = useState(false);
+
+  const nav = useNavigate()
 
   useEffect(() => {
     if (
@@ -54,7 +90,6 @@ const Signup = () => {
     const res = await axios.post(`${serverPath}/users/email`, {
       email: email,
     });
-
     if (res.status === 200) {
       setIsNotUsingEmail(true);
     } else {
@@ -76,26 +111,26 @@ const Signup = () => {
 
   const signinHandler = async () => {
     // 작성된 내용을 요청의 바디로 전달한다.
-    const res = axios.post(`${serverPath}/users/signup`, {
+    const res = await axios.post(`${serverPath}/users/signup`, {
       email: email,
       nickname: nickname,
       password: password,
     });
-    if (res.status !== 200) {
-      //throw Err!
+    if (res.status === 201) {
+      nav("/login")
     }
   };
 
   const ValidateBtn = ({ validCheckFn }) => {
     // 중복확인 버튼을 누를 경우 해당하는 함수를 실행합니다.
-    return <div onClick={validCheckFn}>중복확인</div>;
+    return <StyledValidateBtn onClick={validCheckFn}>중복확인</StyledValidateBtn>;
   };
 
   const SubmitBtn = () => {
     return activeSubmit ? (
-      <button onClick={signinHandler}>회원가입 하기</button>
+      <StyledSubmitBtn onClick={signinHandler}>회원가입 하기</StyledSubmitBtn>
     ) : (
-      <button disabled>회원가입 하기</button>
+        <StyledSubmitBtn disabled>회원가입 하기</StyledSubmitBtn>
     );
   };
 
@@ -104,7 +139,7 @@ const Signup = () => {
       return <span></span>;
     }
     if (!validateEmail(email)) {
-      return <span>올바른 이메일을 입력해주세요.</span>;
+      return <span>올바른 이메일을 입력하세요.</span>;
     }
     if (!isNotUsingEmail && email.length > 0 && validateEmail(email)) {
       return <span>이메일 중복확인을 해주세요.</span>;
@@ -131,63 +166,74 @@ const Signup = () => {
 
   return (
     <div>
-      {/* 이메일 입력 */}
-      <div className="email_input">
-        <h3>이메일 입력</h3>
-        <input
-          type="email"
-          placeholder="이메일 입력"
-          onChange={(e) => {
-            setValue(e, setEmail);
-            setIsNotUsingEmail(false);
-          }}
-        />
-        <EmailNotification />
-        <ValidateBtn validCheckFn={emailValidateCheck} />
-      </div>
+      <Topbar pageTitle={"회원가입"} />
+      <Container>
+        {/* 이메일 입력 */}
+        <InputTitle>이메일 입력</InputTitle>
+        <InputSet>
+          <Input
+            type="email"
+            placeholder="이메일 입력"
+            onChange={(e) => {
+              setValue(e, setEmail);
+              setIsNotUsingEmail(false);
+            }}
+          />
+          <ValidateBtn validCheckFn={emailValidateCheck} />
+        </InputSet>
+          <div>
+            <EmailNotification />
+          </div>
+        
 
-      {/* 닉네임 입력 */}
-      <div className="nickname_input">
-        <h3>닉네임 입력</h3>
-        <input
-          type="text"
-          placeholder="닉네임 입력"
-          onChange={(e) => {
-            setValue(e, setNickname);
-            setIsNotUsingNickname(false);
-          }}
-        />
-        <NicknameNotification />
-        <ValidateBtn validCheckFn={nicknameValidateCheck} />
-      </div>
+        {/* 닉네임 입력 */}
+        <InputTitle>닉네임 입력</InputTitle>
+        <InputSet>
+          <Input
+            type="text"
+            placeholder="닉네임 입력"
+            onChange={(e) => {
+              setValue(e, setNickname);
+              setIsNotUsingNickname(false);
+            }}
+          />
+          <ValidateBtn validCheckFn={nicknameValidateCheck} />
+        </InputSet>
+          <div>
+            <NicknameNotification />
+          </div>
+        
 
-      {/* 비밀번호 */}
-      <div className="password_input">
-        <h3>비밀번호 입력</h3>
-        <input
-          type="password"
-          placeholder="비밀번호 입력"
-          onChange={(e) => setValue(e, setPassword)}
-        />
-      </div>
+        {/* 비밀번호 */}
+        <div className="password_input">
+          <InputTitle>비밀번호 입력</InputTitle>
+          <Input
+            type="password"
+            placeholder="비밀번호 입력"
+            onChange={(e) => setValue(e, setPassword)}
+          />
+        </div>
 
-      {/* 비밀번호 체크 */}
-      <div className="password_check_input">
-        <h3>비밀번호 확인</h3>
-        <input
-          type="password"
-          placeholder="비밀번호 확인"
-          onChange={(e) => {
-            setValue(e, setCheckPassword);
-          }}
-        />
-        {password === checkPassword ? (
-          <span></span>
-        ) : (
-          <span>비밀번호가 다릅니다!</span>
-        )}
-      </div>
-      <SubmitBtn />
+        {/* 비밀번호 체크 */}
+        <div className="password_check_input">
+          <InputTitle>비밀번호 확인</InputTitle>
+          <Input
+            type="password"
+            placeholder="비밀번호 확인"
+            onChange={(e) => {
+              setValue(e, setCheckPassword);
+            }}
+          />
+        </div>
+        <div>
+          {password === checkPassword ? (
+            <span></span>
+          ) : (
+            <span>비밀번호가 다릅니다!</span>
+          )}
+        </div>
+        <SubmitBtn />
+      </Container>
     </div>
   );
 };

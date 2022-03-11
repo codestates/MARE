@@ -6,6 +6,19 @@ import { Topbar } from "../Components/topbar"
 
 const serverPath = process.env.REACT_APP_SERVER_PATH
 
+const Container = styled.div`
+  width: 400px;
+  min-height: 600px;
+  background-color: #dfd5d2;
+  overflow: scroll;
+`
+const Message = styled.div`
+  display: grid;
+  width: 100%;
+  height: 600px;
+  place-items: center;
+`
+
 export const Favorites = ({ loginToken }) => {
   const [recipeList, setRecipeList] = useState([])
 
@@ -22,14 +35,14 @@ export const Favorites = ({ loginToken }) => {
   }
 
   const Thumbnails = () => {
-    if (recipeList.length > 0) { 
-        return (
-          recipeList.map((el) => {
-            return <Thumbnail key={el._id} data={el} />
-          })
-        )
+    if (recipeList.length > 0) {
+      return (
+        recipeList.map((el) => {
+          return <Thumbnail key={el._id} data={el} />
+        })
+      )
     } else {
-      return <div>즐겨찾기한 레시피가 없습니다.</div>
+      return <Message>즐겨찾기한 레시피가 없습니다.</Message>
     }
   }
 
@@ -40,7 +53,9 @@ export const Favorites = ({ loginToken }) => {
   return (
     <div>
       <Topbar pageTitle={"즐겨찾기"} />
-      <Thumbnails />
+      <Container>
+        <Thumbnails />
+      </Container>
     </div>
   )
 }

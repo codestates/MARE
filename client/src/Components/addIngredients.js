@@ -9,9 +9,9 @@ import { faPlusSquare, faMinusSquare } from "@fortawesome/free-regular-svg-icons
 const Container = styled.div`
     display: grid ;
     place-items: center;
-    background-color: beige;
+    background-color: #dfd5d2;;
     box-sizing: border-box;
-    width: 400px;
+    width: 410px;
     padding: 5px;
   `
 
@@ -28,7 +28,7 @@ const IListsItems = styled.div`
   `
 
 const Sinput = styled.input`
-    margin: 0 5px;
+    margin: 0 3px;
   `
 
 const SFontAwesomeIcon = styled(FontAwesomeIcon)`

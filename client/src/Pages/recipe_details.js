@@ -14,7 +14,7 @@ const Container = styled.div`
   display: grid;
   place-items: center;
   width: 400px;
-  background-color: beige;
+  background-color: #dfd5d2;
 `
 const RecipeImg = styled.div`
   position : relative;

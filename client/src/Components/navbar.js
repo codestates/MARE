@@ -14,7 +14,7 @@ const Container = styled.div`
 `;
 
 const MenuBtn = styled.div`
-  background-color: beige;
+  background-color: #b8aeab;
   box-sizing: border-box;
   width: 100px;
   height: 60px;
@@ -26,7 +26,7 @@ const SLink = styled(Link)`
   place-items: center;
   margin-top: 5px;
   text-align: center;
-  color: black;
+  color: #fff;
   text-decoration: none;
 `;
 
@@ -35,7 +35,6 @@ export const Navbar = () => {
     <Container>
       <MenuBtn>
         <SLink to="my_recipes">
-          {/* signup 으로 변경해두기 */}
           <FontAwesomeIcon icon={faClipboard} size="2x" />
           나의 레시피
         </SLink>
@@ -49,7 +48,7 @@ export const Navbar = () => {
       <MenuBtn>
         <SLink to="add_recipe">
           <FontAwesomeIcon icon={faSquarePlus} size="2x" />
-          레피시 추가
+          레시피 추가
         </SLink>
       </MenuBtn>
       <MenuBtn>
