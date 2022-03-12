@@ -23,7 +23,7 @@
 <br/><br/>
 
 
-## 🌏 **[Homepage](http://mare.kitchen.s3-website.ap-northeast-2.amazonaws.com/login) 바로가기**
+## 🌏 **[Homepage](http://mare.kitchen) 바로가기**
 <br/><br/>
 
 
